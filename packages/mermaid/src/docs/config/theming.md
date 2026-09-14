@@ -6,27 +6,130 @@ Themes can now be customized at the site-wide level, or on individual Mermaid di
 
 ## Available Themes
 
-1.  [**redux-color**](https://github.com/mermaid-js/mermaid/blob/develop/packages/mermaid/src/themes/theme-redux-color.js) - The default theme for the diagram types listed under [Per-diagram defaults](#per-diagram-defaults). It pairs the `redux` geometry and typography with a categorical colour palette, so entities, actors, branches, classes, subgraph containers and chart series each get their own colour.
+1.  [**redux-color**](#preview-redux-color) - The default theme for the diagram types listed under [Per-diagram defaults](#per-diagram-defaults). It pairs the `redux` geometry and typography with a categorical colour palette, so entities, actors, branches, classes, subgraph containers and chart series each get their own colour.
 
-2.  [**redux-dark-color**](https://github.com/mermaid-js/mermaid/blob/develop/packages/mermaid/src/themes/theme-redux-dark-color.js) - The dark counterpart of `redux-color`.
+2.  [**redux-dark-color**](#preview-redux-dark-color) - The dark counterpart of `redux-color`.
 
-3.  [**redux**](https://github.com/mermaid-js/mermaid/blob/develop/packages/mermaid/src/themes/theme-redux.js) - The same geometry and typography as `redux-color`, but monochrome. Use this when you want the colour to carry meaning you assign yourself rather than being cycled per item.
+3.  [**redux**](#preview-redux) - The same geometry and typography as `redux-color`, but monochrome. Use this when you want the colour to carry meaning you assign yourself rather than being cycled per item.
 
-4.  [**redux-dark**](https://github.com/mermaid-js/mermaid/blob/develop/packages/mermaid/src/themes/theme-redux-dark.js) - The dark counterpart of `redux`.
+4.  [**redux-dark**](#preview-redux-dark) - The dark counterpart of `redux`.
 
-5.  [**default**](https://github.com/mermaid-js/mermaid/blob/develop/packages/mermaid/src/themes/theme-default.js) - The long-standing Mermaid look, and still the default for every diagram type not listed under [Per-diagram defaults](#per-diagram-defaults).
+5.  [**default**](#preview-default) - The long-standing Mermaid look, and still the default for every diagram type not listed under [Per-diagram defaults](#per-diagram-defaults).
 
-6.  [**neutral**](https://github.com/mermaid-js/mermaid/blob/develop/packages/mermaid/src/themes/theme-neutral.js) - This theme is great for black-and-white documents that will be printed.
+6.  [**neutral**](#preview-neutral) - This theme is great for black-and-white documents that will be printed.
 
-7.  [**dark**](https://github.com/mermaid-js/mermaid/blob/develop/packages/mermaid/src/themes/theme-dark.js) - This theme goes well with dark-colored elements or dark-mode. To use the dark theme (which changes the theme of the schema itself) with dark-mode (which sets the background), set `darkMode` to `true` in your config.
+7.  [**dark**](#preview-dark) - This theme goes well with dark-colored elements or dark-mode. To use the dark theme (which changes the theme of the schema itself) with dark-mode (which sets the background), set `darkMode` to `true` in your config.
 
-8.  [**forest**](https://github.com/mermaid-js/mermaid/blob/develop/packages/mermaid/src/themes/theme-forest.js) - This theme contains shades of green.
+8.  [**forest**](#preview-forest) - This theme contains shades of green.
 
-9.  [**neo**](https://github.com/mermaid-js/mermaid/blob/develop/packages/mermaid/src/themes/theme-neo.js) - A flatter, softer look, intended to be paired with `look: neo`.
+9.  [**neo**](#preview-neo) - A flatter, softer look, intended to be paired with `look: neo`.
 
-10. [**neo-dark**](https://github.com/mermaid-js/mermaid/blob/develop/packages/mermaid/src/themes/theme-neo-dark.js) - The dark counterpart of `neo`.
+10. [**neo-dark**](#preview-neo-dark) - The dark counterpart of `neo`.
 
-11. [**base**](https://github.com/mermaid-js/mermaid/blob/develop/packages/mermaid/src/themes/theme-base.js) - This is the only theme that can be modified. Use this theme as the base for customizations.
+11. [**base**](#preview-base) - This is the only theme that can be modified. Use this theme as the base for customizations.
+
+## Theme previews
+
+Compare the same flowchart in every theme below. Each screenshot keeps its own
+background, so light and dark themes can be compared in either site appearance.
+
+The Redux and Neo previews use `look: neo`; the other previews use `look: classic`.
+The look controls shapes and styling independently of the theme. Set both values
+explicitly to reproduce a preview rather than relying on per-diagram defaults.
+Dark previews also set `darkMode: true` and use a `#333333` page background; light
+previews use a white page background. Set the background on the element containing
+your diagram when embedding it.
+
+All previews use this diagram, without custom node or edge styles. The two
+subgraphs show how the Redux color themes assign different colors to containers:
+
+```text
+---
+config:
+  theme: redux-color
+  look: neo
+---
+flowchart LR
+  subgraph review [Review]
+    A[Write a draft] --> B{Ready?}
+  end
+  subgraph next [Next step]
+    C[Publish]
+    D[Revise]
+  end
+  B -->|Yes| C
+  B -->|No| D
+```
+
+### redux-color {#preview-redux-color}
+
+`theme: redux-color`, `look: neo`
+
+![Flowchart in the redux-color theme: Write a draft leads to Ready?; Yes leads to Publish, and No leads to Revise.](./img/theme-previews/redux-color.png)
+
+### redux-dark-color {#preview-redux-dark-color}
+
+`theme: redux-dark-color`, `look: neo`, `darkMode: true`
+
+![Flowchart in the redux-dark-color theme: Write a draft leads to Ready?; Yes leads to Publish, and No leads to Revise.](./img/theme-previews/redux-dark-color.png)
+
+### redux {#preview-redux}
+
+`theme: redux`, `look: neo`
+
+![Flowchart in the redux theme: Write a draft leads to Ready?; Yes leads to Publish, and No leads to Revise.](./img/theme-previews/redux.png)
+
+### redux-dark {#preview-redux-dark}
+
+`theme: redux-dark`, `look: neo`, `darkMode: true`
+
+![Flowchart in the redux-dark theme: Write a draft leads to Ready?; Yes leads to Publish, and No leads to Revise.](./img/theme-previews/redux-dark.png)
+
+### default {#preview-default}
+
+`theme: default`, `look: classic`
+
+![Flowchart in the default theme: Write a draft leads to Ready?; Yes leads to Publish, and No leads to Revise.](./img/theme-previews/default.png)
+
+### neutral {#preview-neutral}
+
+`theme: neutral`, `look: classic`
+
+![Flowchart in the neutral theme: Write a draft leads to Ready?; Yes leads to Publish, and No leads to Revise.](./img/theme-previews/neutral.png)
+
+### dark {#preview-dark}
+
+`theme: dark`, `look: classic`, `darkMode: true`
+
+![Flowchart in the dark theme: Write a draft leads to Ready?; Yes leads to Publish, and No leads to Revise.](./img/theme-previews/dark.png)
+
+### forest {#preview-forest}
+
+`theme: forest`, `look: classic`
+
+![Flowchart in the forest theme: Write a draft leads to Ready?; Yes leads to Publish, and No leads to Revise.](./img/theme-previews/forest.png)
+
+### neo {#preview-neo}
+
+`theme: neo`, `look: neo`
+
+![Flowchart in the neo theme: Write a draft leads to Ready?; Yes leads to Publish, and No leads to Revise.](./img/theme-previews/neo.png)
+
+### neo-dark {#preview-neo-dark}
+
+`theme: neo-dark`, `look: neo`, `darkMode: true`
+
+![Flowchart in the neo-dark theme: Write a draft leads to Ready?; Yes leads to Publish, and No leads to Revise.](./img/theme-previews/neo-dark.png)
+
+### base {#preview-base}
+
+`theme: base`, `look: classic`
+
+![Flowchart in the base theme: Write a draft leads to Ready?; Yes leads to Publish, and No leads to Revise.](./img/theme-previews/base.png)
+
+<!-- Regenerate these screenshots with `pnpm build:esbuild`,
+     `pnpm exec playwright install chromium`, and
+     `pnpm exec tsx scripts/theme-previews.mts` from the repository root. -->
 
 ## Per-diagram defaults
 
