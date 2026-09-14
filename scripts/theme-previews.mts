@@ -20,7 +20,11 @@ const themes = [
   'neo-dark',
   'base',
 ] as const;
-const diagram = `flowchart LR
+const diagrams = [
+  {
+    id: 'flowchart',
+    labels: ['Write a draft', 'Ready?', 'Publish', 'Revise'],
+    source: `flowchart LR
   subgraph review [Review]
     A[Write a draft] --> B{Ready?}
   end
@@ -29,7 +33,57 @@ const diagram = `flowchart LR
     D[Revise]
   end
   B -->|Yes| C
-  B -->|No| D`;
+  B -->|No| D`,
+  },
+  {
+    id: 'sequence',
+    labels: ['Reader', 'Website', 'Database', 'Article found'],
+    source: `sequenceDiagram
+  actor Reader
+  participant Website
+  participant Database
+  Reader->>Website: Open article
+  activate Website
+  Website->>Database: Load article
+  Database-->>Website: Article found
+  Note over Website: Format content
+  Website-->>Reader: Show article
+  deactivate Website`,
+  },
+  {
+    id: 'class',
+    labels: ['Author', 'Article', 'Comment', 'publish'],
+    source: `classDiagram
+  direction LR
+  class Author {
+    +String name
+    +write()
+  }
+  class Article {
+    +String title
+    +publish()
+  }
+  class Comment {
+    +String text
+    +approve()
+  }
+  Author "1" --> "*" Article : writes
+  Article "1" *-- "*" Comment : contains`,
+  },
+  {
+    id: 'state',
+    labels: ['Draft', 'Review', 'Published', 'Editing'],
+    source: `stateDiagram-v2
+  direction LR
+  [*] --> Editing
+  state Editing {
+    Draft --> Review: Submit
+    Review --> Draft: Revise
+  }
+  Editing --> Published: Approve
+  Published --> [*]`,
+  },
+] as const;
 const output = 'packages/mermaid/src/docs/config/img/theme-previews';
 const fontRoot = 'packages/mermaid/src/docs/node_modules';
 // cspell:ignore wght
@@ -59,30 +113,34 @@ try {
   const errors: string[] = [];
   page.on('pageerror', (error) => errors.push(error.message));
   for (const theme of themes) {
-    const darkMode = theme.includes('dark');
-    const look = theme.startsWith('redux') || theme.startsWith('neo') ? 'neo' : 'classic';
-    await page.setContent(`<style>${fontCss}
+    for (const example of diagrams) {
+      const darkMode = theme.includes('dark');
+      const look = theme.startsWith('redux') || theme.startsWith('neo') ? 'neo' : 'classic';
+      await page.setContent(`<style>${fontCss}
       body { margin: 0; background: ${darkMode ? '#333333' : '#ffffff'}; }
       #diagram { width: 720px; height: 360px; display: flex; align-items: center; justify-content: center; }
       #diagram svg { max-width: 672px !important; max-height: 312px; }
     </style><div id="diagram"></div>`);
-    await page.addScriptTag({ path: 'packages/mermaid/dist/mermaid.js' });
-    await page.evaluate(
-      async ({ theme, look, darkMode, diagram }) => {
-        await document.fonts.load('16px "Recursive Variable"');
-        await document.fonts.load('16px "Open Sans"');
-        const mermaid = (window as unknown as { mermaid: Mermaid }).mermaid;
-        mermaid.initialize({ startOnLoad: false, theme, look, darkMode });
-        const { svg } = await mermaid.render('theme-preview', diagram);
-        document.querySelector('#diagram')!.innerHTML = svg;
-        await document.fonts.ready;
-        if (document.querySelectorAll('.node').length !== 4) {
-          throw new Error(`Expected four nodes for ${theme}`);
-        }
-      },
-      { theme, look, darkMode, diagram }
-    );
-    await page.locator('#diagram').screenshot({ path: `${output}/${theme}.png` });
+      await page.addScriptTag({ path: 'packages/mermaid/dist/mermaid.js' });
+      await page.evaluate(
+        async ({ theme, look, darkMode, diagram, labels }) => {
+          await document.fonts.load('16px "Recursive Variable"');
+          await document.fonts.load('16px "Open Sans"');
+          const mermaid = (window as unknown as { mermaid: Mermaid }).mermaid;
+          mermaid.initialize({ startOnLoad: false, theme, look, darkMode });
+          const { svg } = await mermaid.render('theme-preview', diagram);
+          document.querySelector('#diagram')!.innerHTML = svg;
+          await document.fonts.ready;
+          const rendered = document.querySelector('#diagram svg');
+          if (!rendered || labels.some((label) => !rendered.textContent?.includes(label))) {
+            throw new Error(`Missing diagram content for ${theme}`);
+          }
+        },
+        { theme, look, darkMode, diagram: example.source, labels: example.labels }
+      );
+      const suffix = example.id === 'flowchart' ? '' : `-${example.id}`;
+      await page.locator('#diagram').screenshot({ path: `${output}/${theme}${suffix}.png` });
+    }
   }
   if (errors.length) {
     throw new Error(errors.join('\n'));

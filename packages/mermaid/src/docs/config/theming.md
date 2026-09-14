@@ -30,7 +30,8 @@ Themes can now be customized at the site-wide level, or on individual Mermaid di
 
 ## Theme previews
 
-Compare the same flowchart in every theme below. Each screenshot keeps its own
+Compare flowchart, sequence, class, and state diagrams in every theme below.
+Each example uses the same source across themes. Each screenshot keeps its own
 background, so light and dark themes can be compared in either site appearance.
 
 The Redux and Neo previews use `look: neo`; the other previews use `look: classic`.
@@ -40,8 +41,8 @@ Dark previews also set `darkMode: true` and use a `#333333` page background; lig
 previews use a white page background. Set the background on the element containing
 your diagram when embedding it.
 
-All previews use this diagram, without custom node or edge styles. The two
-subgraphs show how the Redux color themes assign different colors to containers:
+The flowchart previews use this source, without custom node or edge styles. The
+two subgraphs show how the Redux color themes assign different colors to containers:
 
 ```text
 ---
@@ -61,11 +62,89 @@ flowchart LR
   B -->|No| D
 ```
 
+The additional examples show actors, messages and notes in sequence diagrams,
+attributes and relationships in class diagrams, and composite states and
+transitions in state diagrams. Expand **More diagram types** under a theme to
+compare these elements.
+
+<details>
+<summary>Source for the additional examples</summary>
+
+**Sequence diagram**
+
+```text
+sequenceDiagram
+  actor Reader
+  participant Website
+  participant Database
+  Reader->>Website: Open article
+  activate Website
+  Website->>Database: Load article
+  Database-->>Website: Article found
+  Note over Website: Format content
+  Website-->>Reader: Show article
+  deactivate Website
+```
+
+**Class diagram**
+
+```text
+classDiagram
+  direction LR
+  class Author {
+    +String name
+    +write()
+  }
+  class Article {
+    +String title
+    +publish()
+  }
+  class Comment {
+    +String text
+    +approve()
+  }
+  Author "1" --> "*" Article : writes
+  Article "1" *-- "*" Comment : contains
+```
+
+**State diagram**
+
+```text
+stateDiagram-v2
+  direction LR
+  [*] --> Editing
+  state Editing {
+    Draft --> Review: Submit
+    Review --> Draft: Revise
+  }
+  Editing --> Published: Approve
+  Published --> [*]
+```
+
+</details>
+
 ### redux-color {#preview-redux-color}
 
 `theme: redux-color`, `look: neo`
 
 ![Flowchart in the redux-color theme: Write a draft leads to Ready?; Yes leads to Publish, and No leads to Revise.](./img/theme-previews/redux-color.png)
+
+<details>
+<summary>More diagram types</summary>
+
+**Sequence diagram**
+
+![Sequence diagram in the redux-color theme: A reader opens an article; the website loads it from a database and returns formatted content.](./img/theme-previews/redux-color-sequence.png)
+
+**Class diagram**
+
+![Class diagram in the redux-color theme: An Author writes Articles, and each Article contains Comments, with attributes and methods.](./img/theme-previews/redux-color-class.png)
+
+**State diagram**
+
+![State diagram in the redux-color theme: Draft and Review are nested in Editing, followed by Published and the final state.](./img/theme-previews/redux-color-state.png)
+
+</details>
 
 ### redux-dark-color {#preview-redux-dark-color}
 
@@ -73,11 +152,45 @@ flowchart LR
 
 ![Flowchart in the redux-dark-color theme: Write a draft leads to Ready?; Yes leads to Publish, and No leads to Revise.](./img/theme-previews/redux-dark-color.png)
 
+<details>
+<summary>More diagram types</summary>
+
+**Sequence diagram**
+
+![Sequence diagram in the redux-dark-color theme: A reader opens an article; the website loads it from a database and returns formatted content.](./img/theme-previews/redux-dark-color-sequence.png)
+
+**Class diagram**
+
+![Class diagram in the redux-dark-color theme: An Author writes Articles, and each Article contains Comments, with attributes and methods.](./img/theme-previews/redux-dark-color-class.png)
+
+**State diagram**
+
+![State diagram in the redux-dark-color theme: Draft and Review are nested in Editing, followed by Published and the final state.](./img/theme-previews/redux-dark-color-state.png)
+
+</details>
+
 ### redux {#preview-redux}
 
 `theme: redux`, `look: neo`
 
 ![Flowchart in the redux theme: Write a draft leads to Ready?; Yes leads to Publish, and No leads to Revise.](./img/theme-previews/redux.png)
+
+<details>
+<summary>More diagram types</summary>
+
+**Sequence diagram**
+
+![Sequence diagram in the redux theme: A reader opens an article; the website loads it from a database and returns formatted content.](./img/theme-previews/redux-sequence.png)
+
+**Class diagram**
+
+![Class diagram in the redux theme: An Author writes Articles, and each Article contains Comments, with attributes and methods.](./img/theme-previews/redux-class.png)
+
+**State diagram**
+
+![State diagram in the redux theme: Draft and Review are nested in Editing, followed by Published and the final state.](./img/theme-previews/redux-state.png)
+
+</details>
 
 ### redux-dark {#preview-redux-dark}
 
@@ -85,11 +198,45 @@ flowchart LR
 
 ![Flowchart in the redux-dark theme: Write a draft leads to Ready?; Yes leads to Publish, and No leads to Revise.](./img/theme-previews/redux-dark.png)
 
+<details>
+<summary>More diagram types</summary>
+
+**Sequence diagram**
+
+![Sequence diagram in the redux-dark theme: A reader opens an article; the website loads it from a database and returns formatted content.](./img/theme-previews/redux-dark-sequence.png)
+
+**Class diagram**
+
+![Class diagram in the redux-dark theme: An Author writes Articles, and each Article contains Comments, with attributes and methods.](./img/theme-previews/redux-dark-class.png)
+
+**State diagram**
+
+![State diagram in the redux-dark theme: Draft and Review are nested in Editing, followed by Published and the final state.](./img/theme-previews/redux-dark-state.png)
+
+</details>
+
 ### default {#preview-default}
 
 `theme: default`, `look: classic`
 
 ![Flowchart in the default theme: Write a draft leads to Ready?; Yes leads to Publish, and No leads to Revise.](./img/theme-previews/default.png)
+
+<details>
+<summary>More diagram types</summary>
+
+**Sequence diagram**
+
+![Sequence diagram in the default theme: A reader opens an article; the website loads it from a database and returns formatted content.](./img/theme-previews/default-sequence.png)
+
+**Class diagram**
+
+![Class diagram in the default theme: An Author writes Articles, and each Article contains Comments, with attributes and methods.](./img/theme-previews/default-class.png)
+
+**State diagram**
+
+![State diagram in the default theme: Draft and Review are nested in Editing, followed by Published and the final state.](./img/theme-previews/default-state.png)
+
+</details>
 
 ### neutral {#preview-neutral}
 
@@ -97,11 +244,45 @@ flowchart LR
 
 ![Flowchart in the neutral theme: Write a draft leads to Ready?; Yes leads to Publish, and No leads to Revise.](./img/theme-previews/neutral.png)
 
+<details>
+<summary>More diagram types</summary>
+
+**Sequence diagram**
+
+![Sequence diagram in the neutral theme: A reader opens an article; the website loads it from a database and returns formatted content.](./img/theme-previews/neutral-sequence.png)
+
+**Class diagram**
+
+![Class diagram in the neutral theme: An Author writes Articles, and each Article contains Comments, with attributes and methods.](./img/theme-previews/neutral-class.png)
+
+**State diagram**
+
+![State diagram in the neutral theme: Draft and Review are nested in Editing, followed by Published and the final state.](./img/theme-previews/neutral-state.png)
+
+</details>
+
 ### dark {#preview-dark}
 
 `theme: dark`, `look: classic`, `darkMode: true`
 
 ![Flowchart in the dark theme: Write a draft leads to Ready?; Yes leads to Publish, and No leads to Revise.](./img/theme-previews/dark.png)
+
+<details>
+<summary>More diagram types</summary>
+
+**Sequence diagram**
+
+![Sequence diagram in the dark theme: A reader opens an article; the website loads it from a database and returns formatted content.](./img/theme-previews/dark-sequence.png)
+
+**Class diagram**
+
+![Class diagram in the dark theme: An Author writes Articles, and each Article contains Comments, with attributes and methods.](./img/theme-previews/dark-class.png)
+
+**State diagram**
+
+![State diagram in the dark theme: Draft and Review are nested in Editing, followed by Published and the final state.](./img/theme-previews/dark-state.png)
+
+</details>
 
 ### forest {#preview-forest}
 
@@ -109,11 +290,45 @@ flowchart LR
 
 ![Flowchart in the forest theme: Write a draft leads to Ready?; Yes leads to Publish, and No leads to Revise.](./img/theme-previews/forest.png)
 
+<details>
+<summary>More diagram types</summary>
+
+**Sequence diagram**
+
+![Sequence diagram in the forest theme: A reader opens an article; the website loads it from a database and returns formatted content.](./img/theme-previews/forest-sequence.png)
+
+**Class diagram**
+
+![Class diagram in the forest theme: An Author writes Articles, and each Article contains Comments, with attributes and methods.](./img/theme-previews/forest-class.png)
+
+**State diagram**
+
+![State diagram in the forest theme: Draft and Review are nested in Editing, followed by Published and the final state.](./img/theme-previews/forest-state.png)
+
+</details>
+
 ### neo {#preview-neo}
 
 `theme: neo`, `look: neo`
 
 ![Flowchart in the neo theme: Write a draft leads to Ready?; Yes leads to Publish, and No leads to Revise.](./img/theme-previews/neo.png)
+
+<details>
+<summary>More diagram types</summary>
+
+**Sequence diagram**
+
+![Sequence diagram in the neo theme: A reader opens an article; the website loads it from a database and returns formatted content.](./img/theme-previews/neo-sequence.png)
+
+**Class diagram**
+
+![Class diagram in the neo theme: An Author writes Articles, and each Article contains Comments, with attributes and methods.](./img/theme-previews/neo-class.png)
+
+**State diagram**
+
+![State diagram in the neo theme: Draft and Review are nested in Editing, followed by Published and the final state.](./img/theme-previews/neo-state.png)
+
+</details>
 
 ### neo-dark {#preview-neo-dark}
 
@@ -121,11 +336,45 @@ flowchart LR
 
 ![Flowchart in the neo-dark theme: Write a draft leads to Ready?; Yes leads to Publish, and No leads to Revise.](./img/theme-previews/neo-dark.png)
 
+<details>
+<summary>More diagram types</summary>
+
+**Sequence diagram**
+
+![Sequence diagram in the neo-dark theme: A reader opens an article; the website loads it from a database and returns formatted content.](./img/theme-previews/neo-dark-sequence.png)
+
+**Class diagram**
+
+![Class diagram in the neo-dark theme: An Author writes Articles, and each Article contains Comments, with attributes and methods.](./img/theme-previews/neo-dark-class.png)
+
+**State diagram**
+
+![State diagram in the neo-dark theme: Draft and Review are nested in Editing, followed by Published and the final state.](./img/theme-previews/neo-dark-state.png)
+
+</details>
+
 ### base {#preview-base}
 
 `theme: base`, `look: classic`
 
 ![Flowchart in the base theme: Write a draft leads to Ready?; Yes leads to Publish, and No leads to Revise.](./img/theme-previews/base.png)
+
+<details>
+<summary>More diagram types</summary>
+
+**Sequence diagram**
+
+![Sequence diagram in the base theme: A reader opens an article; the website loads it from a database and returns formatted content.](./img/theme-previews/base-sequence.png)
+
+**Class diagram**
+
+![Class diagram in the base theme: An Author writes Articles, and each Article contains Comments, with attributes and methods.](./img/theme-previews/base-class.png)
+
+**State diagram**
+
+![State diagram in the base theme: Draft and Review are nested in Editing, followed by Published and the final state.](./img/theme-previews/base-state.png)
+
+</details>
 
 <!-- Regenerate these screenshots with `pnpm build:esbuild`,
      `pnpm exec playwright install chromium`, and
